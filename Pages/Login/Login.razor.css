@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Inter:wght@400;500;600&display=swap');
 
 * {
     box-sizing: border-box;
@@ -9,32 +8,29 @@
 .login-wrapper {
     width: 100vw;
     height: 100vh;
-    background: #0a0c10;
-    background-image: 
-        radial-gradient(circle at 15% 50%, rgba(235, 30, 35, 0.12) 0%, transparent 45%),
-        radial-gradient(circle at 85% 30%, rgba(255, 255, 255, 0.03) 0%, transparent 40%);
+    background: #ffffff;
+    
     display: flex;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
     overflow: hidden;
     font-family: 'Inter', sans-serif;
 }
 
-.login-container {
+.login-container-One, .login-container-Two{
+    position: relative;
     width: 100%;
-    max-width: 1200px;
     height: 100%;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    position: relative;
-    padding: 0 40px;
-    gap: 40px;
+    justify-content: center; 
 }
+
 
 /* Visual Section */
 .visual-section {
-    flex: 1.2;
+    flex: 0 0 600px; /* Fixed width for car section so card sits right beside it */
     position: relative;
     height: 100%;
     display: flex;
@@ -46,25 +42,53 @@
     position: absolute;
     width: 400px;
     height: 400px;
-    background: radial-gradient(circle, rgba(235, 30, 35, 0.25) 0%, rgba(0,0,0,0) 70%);
+    background: radial-gradient(circle, rgba(0, 0, 0, 0.25) 0%, rgba(0,0,0,0) 90%);
     z-index: 0;
     filter: blur(40px);
 }
 
+.track-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 80%;
+  height: 80%;
+  pointer-events: none; /* Prevents background images from blocking clicks on form inputs */
+  z-index: 1;
+}
+
 .bg-track {
     position: absolute;
-    width: 110%;
-    max-width: 750px;
     object-fit: contain;
-    z-index: 1;
-    opacity: 0.85;
-    filter: brightness(0.9) contrast(1.1);
+}
+
+.track-one{
+  top: 200px;
+  left: -120px;
+  width: 500px;
+  transform: rotate(20deg);
+}
+
+.track-two{
+  top: -100px;
+  left: 250px;
+  width: 500px;
+  transform: rotate(42deg);
+  z-index: 100;
+}
+
+.track-three{
+  top: -410px;
+  left: 1020px;
+  width: 500px;
+  transform: rotate(42deg);
+  z-index: -1;
 }
 
 .hero-car {
     position: relative;
-    width: 85%;
-    max-width: 580px;
+    width: 100%;
+    max-width: 880px;
     z-index: 2;
     filter: drop-shadow(0px 20px 30px rgba(0, 0, 0, 0.7));
     animation: floatCar 6s ease-in-out infinite;
@@ -77,18 +101,27 @@
 
 /* Glassmorphism Form Card */
 .form-card {
-    width: 380px;
-    background: rgba(18, 20, 26, 0.75);
+    width: 50%;
+    height: 60%;
+    background: rgba(0, 0, 0, 0.80);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(0, 0, 0, 0.08);
     border-radius: 20px;
-    padding: 40px 32px;
+    
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     z-index: 3;
     box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+                inset 0 1px 0 rgba(0, 0, 0, 0.1);
+    gap: 10px;
+
+}
+
+.login-form{
+    width: 100%;
 }
 
 .brand-badge {
@@ -103,7 +136,7 @@
 
 .form-title {
     font-family: 'Orbitron', sans-serif;
-    font-size: 26px;
+    font-size: 32px;
     font-weight: 800;
     letter-spacing: 1.5px;
     color: #ffffff;
@@ -120,21 +153,18 @@ form {
 /* Floating Label Inputs */
 .input-group {
     position: relative;
-    display: flex;
-    flex-direction: column;
     width: 100%;
+    margin-bottom: 20px;
 }
 
-.custom-input {
+::deep .custom-input {
     width: 100%;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 10px;
-    color: #ffffff;
-    padding: 14px 16px;
-    font-size: 14px;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid #555;
+    color: #fff;
+    padding: 10px 0;
     outline: none;
-    transition: all 0.25s ease;
 }
 
 .input-group label {
@@ -149,8 +179,8 @@ form {
 }
 
 /* Floating Label Effects */
-.custom-input:focus ~ label,
-.custom-input:not(:placeholder-shown) ~ label {
+::deep .custom-input:focus ~ label,
+::deep .custom-input:not(:placeholder-shown) ~ label {
     top: 0;
     transform: translateY(-50%) scale(0.85);
     background: #12141a;
@@ -159,16 +189,11 @@ form {
     color: #eb1e23;
 }
 
-.custom-input:focus {
-    border-color: #eb1e23;
-    background: rgba(235, 30, 35, 0.02);
-    box-shadow: 0 0 15px rgba(235, 30, 35, 0.15);
-}
 
 /* Accent Button */
 .btn-login {
     width: 100%;
-    background: linear-gradient(135deg, #eb1e23 0%, #b31217 100%);
+    background: linear-gradient(135deg, #ffffff 0%, #6e6969 100%);
     color: #ffffff;
     border: none;
     border-radius: 10px;
@@ -183,7 +208,7 @@ form {
     justify-content: center;
     gap: 8px;
     transition: all 0.25s ease;
-    box-shadow: 0 8px 20px rgba(235, 30, 35, 0.3);
+    box-shadow: 0 8px 20px rgba(68, 64, 64, 0.3);
 }
 
 .btn-login:hover {
@@ -233,7 +258,9 @@ form {
     }
 
     .form-card {
-        width: 100%;
-        max-width: 400px;
+        width: 420px;
+        margin-left: 0; /* Removes any rightward push */
+        z-index: 3;
     }
+
 }

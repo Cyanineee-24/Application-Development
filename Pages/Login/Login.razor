@@ -3,25 +3,29 @@
 @inject NavigationManager Navigation
 
 <div class="login-wrapper">
-    <div class="login-container">
-        <!-- Visual Section (Track + Car Overlay) -->
+    <div class = "login-container-One">
         <div class="visual-section">
             <div class="ambient-glow"></div>
-            <img src="images/TRACK_PATH.png" class="bg-track" alt="Racetrack Background" />
+                <div class="track-wrapper">
+                    <img src="images/TRACK_PATH.png" class="bg-track track-one" alt="Racetrack Background" />
+                    <img src="images/TRACK_PATH.png" class="bg-track track-two" alt="Racetrack Background" />
+                    <img src="images/TRACK_PATH.png" class="bg-track track-three" alt="Racetrack Background" />
+                </div>
+            
             <img src="images/CAR_PATH.png" class="hero-car" alt="Sports Car" />
         </div>
-
-        <!-- Glassmorphism Form Card -->
+    </div>
+    <div class="login-container-Two">
         <div class="form-card">
-            <div class="brand-badge">APEX RACING</div>
+            <div class="brand-badge"></div>
             <h1 class="form-title">LOGIN</h1>
             
-            <EditForm Model="@loginModel" OnValidSubmit="HandleLogin">
+            <EditForm Model="@loginModel" OnValidSubmit="HandleLogin" class="login-form">
                 <DataAnnotationsValidator />
                 
                 <div class="input-group">
                     <InputText @bind-Value="loginModel.Username" id="username" class="custom-input" placeholder=" " />
-                    <label for="username">Username</label>
+                    <label for ="username">Username</label>
                     <span class="input-focus-border"></span>
                 </div>
 
@@ -32,8 +36,7 @@
                 </div>
 
                 <button type="submit" class="btn-login">
-                    <span>START ENGINE</span>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    <span>Login</span>
                 </button>
             </EditForm>
 
