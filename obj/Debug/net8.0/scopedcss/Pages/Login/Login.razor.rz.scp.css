@@ -226,19 +226,19 @@ form[b-rhr2opo8vp] {
     text-align: center;
 }
 
-.register-link[b-rhr2opo8vp] {
+[b-rhr2opo8vp] a.register-link {
     color: #8a8d93;
     font-size: 12px;
     text-decoration: none;
     transition: color 0.2s;
 }
 
-.register-link span[b-rhr2opo8vp] {
+[b-rhr2opo8vp] a.register-link span {
     color: #ffffff;
     font-weight: 600;
 }
 
-.register-link:hover span[b-rhr2opo8vp] {
+[b-rhr2opo8vp] a.register-link:hover span {
     color: #eb1e23;
     text-decoration: underline;
 }

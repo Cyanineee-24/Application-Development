@@ -226,19 +226,19 @@ form {
     text-align: center;
 }
 
-.register-link {
+::deep a.register-link {
     color: #8a8d93;
     font-size: 12px;
     text-decoration: none;
     transition: color 0.2s;
 }
 
-.register-link span {
+::deep a.register-link span {
     color: #ffffff;
     font-weight: 600;
 }
 
-.register-link:hover span {
+::deep a.register-link:hover span {
     color: #eb1e23;
     text-decoration: underline;
 }
