@@ -1032,3 +1032,4 @@ C:\Users\L23Y16W17\Documents\appdev\obj\Debug\net8.0\appdev.pdb
 C:\Users\L23Y16W17\Documents\appdev\obj\Debug\net8.0\ref\appdev.dll
 C:\Users\L23Y16W17\Documents\appdev\obj\Debug\net8.0\scopedcss\Pages\Register\Register.razor.rz.scp.css
 C:\Users\L23Y16W17\Documents\appdev\obj\Debug\net8.0\scopedcss\Pages\Home\Home.razor.rz.scp.css
+C:\Users\L23Y16W17\Documents\appdev\obj\Debug\net8.0\appdev.sourcelink.json

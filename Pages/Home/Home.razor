@@ -1,14 +1,32 @@
 @page "/home"
+@inject NavigationManager Navigation
 
 <div class="home-wrapper">
     <!-- Left Hero Graphics (Rider + Flag Overlay) -->
     <div class="hero-graphics">
-        <img src="images/FLAG_IMAGE.png" class="flag-bg" alt="Checkered Flag" />
+        <div class="flag-wrapper">
+            <img src="images/FLAG_IMAGE.png" class="flag-bg" alt="Checkered Flag" />
+        </div>
         <img src="images/RIDER_IMAGE.png" class="rider-hero" alt="Motorcycle Rider" />
     </div>
 
     <!-- Right Content Section -->
     <div class="content-section">
-        <h1 class="welcome-title">Welcome To<br />The Club</h1>
+        <div class="ambient-glow"></div>
+        <div class="welcome-card">
+            <span class="brand-badge">Official Racing Hub</span>
+            <h1 class="welcome-title">WELCOME TO<br /><span class="highlight-text">THE CLUB</span></h1>
+            <p class="welcome-subtitle">
+                Experience high-octane performance, track events, and an exclusive community built for real riders.
+            </p>
+            <div class="cta-group">
+                <button class="btn-primary" @onclick='() => Navigation.NavigateTo("/events")'>
+                    EXPLORE EVENTS
+                </button>
+                <button class="btn-secondary" @onclick='() => Navigation.NavigateTo("/about")'>
+                    LEARN MORE
+                </button>
+            </div>
+        </div>
     </div>
 </div>
