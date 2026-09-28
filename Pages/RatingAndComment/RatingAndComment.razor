@@ -1,0 +1,180 @@
+@page "/RatingAndComment"
+
+
+<PageTitle>Ratings & Comments</PageTitle>
+
+<div class="reviews-page">
+
+    <section class="reviews-left">
+        <h1 class="page-title">Ratings</h1>
+
+        <div class="summary">
+            <div class="summary-score">
+                <span class="score-number">@(reviews.Count == 0 ? "0.0" : Average.ToString("0.0"))</span>
+                <span class="stars-static" aria-hidden="true">@Stars((int)Math.Round(Average))</span>
+                <span class="score-count">@reviews.Count @(reviews.Count == 1 ? "review" : "reviews")</span>
+            </div>
+
+            <div class="bars">
+                @for (var star = 5; star >= 1; star--)
+                {
+                    var count = reviews.Count(r => r.Rating == star);
+                    var percent = reviews.Count == 0 ? 0 : count * 100 / reviews.Count;
+                    <div class="bar-row">
+                        <span class="bar-label">@star</span>
+                        <div class="bar-track">
+                            <div class="bar-fill" style="width:@(percent)%"></div>
+                        </div>
+                        <span class="bar-count">@count</span>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <ul class="review-list">
+            @if (reviews.Count == 0)
+            {
+                <li class="empty">No reviews yet. Be the first to rate.</li>
+            }
+
+            @foreach (var review in reviews)
+            {
+                <li class="review-item @(review.Id == lastPostedId ? "is-new" : "")" @key="review.Id">
+                    <div class="review-head">
+                        <span class="review-author">@review.Author</span>
+                        <span class="stars-static" role="img" aria-label="Rated @review.Rating out of 5">@Stars(review.Rating)</span>
+                        <time class="review-date">@review.PostedAt.ToString("MMM d, yyyy")</time>
+                    </div>
+                    <p class="review-comment">@review.Comment</p>
+                </li>
+            }
+        </ul>
+    </section>
+
+    <aside class="reviews-right">
+        <div class="form-card">
+            <h2 class="form-title">RATE US</h2>
+
+            <div class="field">
+                <input class="text-input" placeholder="Username (optional)" maxlength="30" @bind="author" @bind:event="oninput" />
+            </div>
+
+            <div class="star-picker" role="radiogroup" aria-label="Your rating" @onmouseleave="() => hoverRating = 0">
+                @for (var i = 1; i <= 5; i++)
+                {
+                    var star = i;
+                    <button type="button"
+                            class="star @(star <= ActiveRating ? "on" : "")"
+                            role="radio"
+                            aria-checked="@(selectedRating == star)"
+                            aria-label="@star out of 5"
+                            @onclick="() => selectedRating = star"
+                            @onmouseover="() => hoverRating = star"
+                            @onfocus="() => hoverRating = star"
+                            @onblur="() => hoverRating = 0">
+                        ★
+                    </button>
+                }
+                <span class="rating-text">@RatingLabel</span>
+            </div>
+
+            <div class="field">
+                <textarea class="text-input comment-input"
+                          placeholder="Write your comment"
+                          rows="4"
+                          maxlength="@MaxComment"
+                          @bind="comment"
+                          @bind:event="oninput"></textarea>
+                <span class="char-count">@comment.Length / @MaxComment</span>
+            </div>
+
+            @if (!string.IsNullOrEmpty(error))
+            {
+                <p class="form-error" role="alert">@error</p>
+            }
+
+            @if (justPosted)
+            {
+                <p class="form-success" role="status">Review posted.</p>
+            }
+
+            <button type="button" class="submit-btn" @onclick="Submit">Post review</button>
+        </div>
+    </aside>
+
+</div>
+
+@code {
+    private const int MaxComment = 300;
+
+    private sealed record Review(int Id, string Author, int Rating, string Comment, DateTime PostedAt);
+
+    // Dummy data. Newest first.
+    private readonly List<Review> reviews = new()
+    {
+        new(3, "apex_mika",  5, "The weekend track day was the best ride of my year. Great crew and well organized.", DateTime.Today.AddDays(-1)),
+        new(2, "lapone",     4, "Love the community here. I'd like more beginner-friendly group rides.", DateTime.Today.AddDays(-4)),
+        new(1, "throttle_rene", 5, "Joined last month and already made friends to ride with every weekend.", DateTime.Today.AddDays(-9)),
+        new(0, "rider_j",    3, "Events are fun, but the sign-up page could show how many slots are left.", DateTime.Today.AddDays(-15)),
+    };
+
+    private int nextId = 4;
+    private int selectedRating;
+    private int hoverRating;
+    private int lastPostedId = -1;
+    private string author = "";
+    private string comment = "";
+    private string? error;
+    private bool justPosted;
+
+    private double Average => reviews.Count == 0 ? 0 : reviews.Average(r => r.Rating);
+
+    private int ActiveRating => hoverRating > 0 ? hoverRating : selectedRating;
+
+    private string RatingLabel => ActiveRating switch
+    {
+        1 => "Poor",
+        2 => "Fair",
+        3 => "Good",
+        4 => "Very good",
+        5 => "Excellent",
+        _ => "Select a rating"
+    };
+
+    private static string Stars(int rating) =>
+        new string('★', Math.Clamp(rating, 0, 5)) + new string('☆', 5 - Math.Clamp(rating, 0, 5));
+
+    private void Submit()
+    {
+        justPosted = false;
+        error = null;
+
+        if (selectedRating == 0)
+        {
+            error = "Choose a star rating.";
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(comment))
+        {
+            error = "Write a comment before posting.";
+            return;
+        }
+
+        var review = new Review(
+            nextId++,
+            string.IsNullOrWhiteSpace(author) ? "Guest" : author.Trim(),
+            selectedRating,
+            comment.Trim(),
+            DateTime.Now);
+
+        reviews.Insert(0, review);
+        lastPostedId = review.Id;
+
+        selectedRating = 0;
+        hoverRating = 0;
+        comment = "";
+        author = "";
+        justPosted = true;
+    }
+}
